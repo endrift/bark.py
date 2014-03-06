@@ -22,16 +22,24 @@ dogs = {
 |`---      `'''
 }
 
-def bark(dog, message):
+def bark(dog, message, quiet=False):
     template = dogs[dog].split('\n')
     message = message.split('\n')
     message = [line.replace('\t', '    ') for line in message]
-    rowLength = max([len(l) // 2 for l in message])
-    rows = []
-    rows.append('  \\\'{}/'.format(''.join(['v\''] * rowLength)))
-    for line in message:
-        rows.append(' <{{: ^{}}}>'.format(rowLength * 2 + 3).format(line))
-    rows.append('_=^,{}\\'.format(''.join(['^,'] * rowLength)))
+    if quiet:
+        rowLength = max([len(l) for l in message])
+        rows = []
+        rows.append('  ,{},'.format(''.join(['-'] * rowLength)))
+        for line in message:
+            rows.append(' |{{: ^{}}}|'.format(rowLength + 2).format(line))
+        rows.append('_L-{}\''.format(''.join(['-'] * rowLength)))
+    else:
+        rowLength = max([len(l) // 2 for l in message])
+        rows = []
+        rows.append('  \\\'{}/'.format(''.join(['v\''] * rowLength)))
+        for line in message:
+            rows.append(' <{{: ^{}}}>'.format(rowLength * 2 + 3).format(line))
+        rows.append('_=^,{}\\'.format(''.join(['^,'] * rowLength)))
     output = []
     start = -1
     # Reverse everything so that we construct the message from the bottom first
@@ -67,8 +75,13 @@ if __name__ == '__main__':
         action='store_const',
         const='shiba',
         help=argparse.SUPPRESS)
+    parser.add_argument('-q', '--quiet',
+        default=False,
+        action='store_const',
+        const=True,
+        help='make output quieter')
 
     args = parser.parse_args()
     if args.message == '-':
         args.message = sys.stdin.read().rstrip('\n')
-    print(bark(args.breed, args.message))
+    print(bark(args.breed, args.message, args.quiet))
