@@ -62,7 +62,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('message',
         help='the message',
-        nargs='?',
+        nargs='*',
         default='-')
     parser.add_argument('-b', '--breed',
         dest='breed',
@@ -82,6 +82,8 @@ if __name__ == '__main__':
         help='make output quieter')
 
     args = parser.parse_args()
-    if args.message == '-':
+    if args.message == ['-']:
         args.message = sys.stdin.read().rstrip('\n')
+    else:
+        args.message = ' '.join(args.message)
     print(bark(args.breed, args.message, args.quiet))
