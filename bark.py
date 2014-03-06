@@ -14,12 +14,12 @@ dogs = {
 # And because this meme just will not die, and people would add it anyway, I've
 # added this in advance
 'shiba': '''   ,    ,
-  _|\__/ | 
- /     ` (
-/ o,,o  \ \  @@
-|,#*     )|
- >^-'   ' \ 
-|`---      `'''
+   |`,_/,|
+ ,'    `,L
+,`o,,o_-7 \  @@
+|,f'    | |
+\`^-'   L  \\
+|`--     `  `'''
 }
 
 def bark(dog, message, quiet=False):
