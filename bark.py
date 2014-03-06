@@ -63,7 +63,7 @@ if __name__ == '__main__':
     parser.add_argument('message',
         help='the message',
         nargs='*',
-        default='-')
+        default=['-'])
     parser.add_argument('-b', '--breed',
         dest='breed',
         default='puppy',
