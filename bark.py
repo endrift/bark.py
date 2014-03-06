@@ -50,12 +50,15 @@ def bark(dog, message):
 
 if __name__ == '__main__':
     dog = 'puppy'
-    if len(sys.argv) > 1:
-        if sys.argv[1] == '-d' and len(sys.argv) > 2:
-            dog = 'shiba'
-            message = ' '.join(sys.argv[2:])
+    args = sys.argv[1:]
+    if len(args) and args[0] == '-d':
+        dog = 'shiba'
+        args = args[1:]
+    if len(args):
+        if args[0] == '-':
+            message = sys.stdin.read().rstrip('\n')
         else:
-            message = ' '.join(sys.argv[1:])
+            message = ' '.join(args)
     else:
-        message = 'Bark!'
+        message = sys.stdin.read().rstrip('\n')
     print(bark(dog, message))
