@@ -24,6 +24,7 @@ dogs = {
 def bark(dog, message):
     template = dogs[dog].split('\n')
     message = message.split('\n')
+    message = [line.replace('\t', '    ') for line in message]
     rowLength = max([len(l) // 2 for l in message])
     rows = []
     rows.append('  \\\'{}/'.format(''.join(['v\''] * rowLength)))
