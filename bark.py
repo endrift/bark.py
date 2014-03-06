@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import argparse
 import sys
 
 # Add your own breed!
@@ -50,16 +51,24 @@ def bark(dog, message):
     return '\n'.join(output)
 
 if __name__ == '__main__':
-    dog = 'puppy'
-    args = sys.argv[1:]
-    if len(args) and args[0] == '-d':
-        dog = 'shiba'
-        args = args[1:]
-    if len(args):
-        if args[0] == '-':
-            message = sys.stdin.read().rstrip('\n')
-        else:
-            message = ' '.join(args)
-    else:
-        message = sys.stdin.read().rstrip('\n')
-    print(bark(dog, message))
+    parser = argparse.ArgumentParser()
+    parser.add_argument('message',
+        help='the message',
+        nargs='?',
+        default='-')
+    parser.add_argument('-b', '--breed',
+        dest='breed',
+        default='puppy',
+        # Hidden until more breeds are added
+        help=argparse.SUPPRESS)
+    # Easter egg!
+    parser.add_argument('-d', '--doge',
+        dest='breed',
+        action='store_const',
+        const='shiba',
+        help=argparse.SUPPRESS)
+
+    args = parser.parse_args()
+    if args.message == '-':
+        args.message = sys.stdin.read().rstrip('\n')
+    print(bark(args.breed, args.message))
